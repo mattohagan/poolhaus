@@ -136,7 +136,7 @@ $(document).ready(function(){
 	}
 
 
-	setTimeout(createCubeRows, 0);
+	setTimeout(createCubeRows, 20);
 }
 
 
