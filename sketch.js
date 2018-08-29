@@ -112,7 +112,7 @@ $(document).ready(function(){
 
 	function createCubeRows(){
 		let x = 0;
-		let y = -(p.height / 2) - (cubeSize * 1.5);
+		let y = -(280) - (cubeSize * 1.5);
 		rowOfCubes.push(new Cube(cubeSize, x, y));
 
 		if(rowOfCubes.length >= 5){
