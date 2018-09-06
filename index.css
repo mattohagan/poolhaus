@@ -22,11 +22,12 @@ canvas {
 }
 
 iframe {
-	position: relative;
-	height: 110%;
+	position: absolute;
+	height: 115%;
 	width: 110%;
-	margin-top: -5%;
-	margin-left: -5%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .poster {
