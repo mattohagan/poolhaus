@@ -4,6 +4,8 @@ let contents = [];
 let index = 0;
 let url = 'http://api.are.na/v2/channels/';
 
+let timer;
+
 $.get(url + 'gallery001', function( data ) {
     console.log(data);
     contents = data.contents;
@@ -11,6 +13,12 @@ $.get(url + 'gallery001', function( data ) {
 
     $('#art').text(data.metadata.description);
     // $('#arena-results').text(data.metadata.description);
+});
+
+$('#next').click(function(){
+	clearInterval(timer);
+	runThroughContents();
+	
 });
 
 
@@ -36,5 +44,5 @@ function runThroughContents(){
 
 	index++;
 
-    setInterval(runThroughContents, 20000);
+    timer = setInterval(runThroughContents, 20000);
 }
