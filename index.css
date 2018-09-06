@@ -18,6 +18,15 @@ canvas {
 	position: relative;
 	height: 100%;
 	width: 100%;
+	overflow: hidden;
+}
+
+iframe {
+	position: relative;
+	height: 110%;
+	width: 110%;
+	margin-top: -5%;
+	margin-left: -5%;
 }
 
 .poster {
