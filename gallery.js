@@ -3,7 +3,7 @@ let index = 0;
 let baseUrl = 'http://api.are.na/v2/channels/';
 let galleryUrl = 'poolhaus-digital';
 let timerInterval = 20000;
-let waitForSketchTime = 5000;
+let waitForSketchTime = 4000;
 let timer;
 let currentiframe = null;
 let nextiframe = null;
@@ -15,8 +15,14 @@ $.get(baseUrl + galleryUrl, function( data ) {
 });
 
 $('#next').click(function(){
-	clearInterval(timer);
-	runThroughContents();
+  console.log($('#next').attr('disabled'));
+
+  if($('#next').attr('disabled') == undefined){
+    clearInterval(timer);
+    $('#next').attr('disabled', true);
+
+  	runThroughContents();
+  }
 });
 
 
@@ -25,7 +31,7 @@ function runThroughContents(){
 	    id: index,
 	    src: contents[index].source.url,
 	    class: 'art'
-	}).attr('hidden', true).appendTo('#page');
+	}).prependTo('#page');
 
   // first load page
   $(nextiframe[0].contentWindow).ready(function(niframe){
@@ -37,12 +43,10 @@ function runThroughContents(){
     setTimeout(function(){
       console.log('in timeout')
       if(currentiframe != null){
-        currentiframe.fadeOut(3000, 'swing', function(){
+        currentiframe.fadeOut(3000, 'linear', function(){
           $(this).remove();
         });
       }
-
-      nextiframe.fadeIn(3000, 'swing', function(){});
 
       currentiframe = nextiframe;
       index++;
@@ -50,6 +54,8 @@ function runThroughContents(){
         index = 0;
       }
       timer = setTimeout(runThroughContents, timerInterval);
+
+      $('#next').attr('disabled', false);
 
     }, waitTime);
   });

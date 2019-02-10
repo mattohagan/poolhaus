@@ -68,6 +68,12 @@ iframe {
 	box-shadow: 4px 4px 0px #000000;
 }
 
+.button[disabled='disabled'] {
+	cursor: progress;
+	opacity: 0.5;
+	box-shadow: 0px 0px 0px #000000;
+}
+
 .poster {
 	position: absolute;
 	top: 50%;
