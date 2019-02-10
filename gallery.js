@@ -1,48 +1,58 @@
-$('#arena-el').text('hello!');
 
 let contents = [];
 let index = 0;
-let url = 'http://api.are.na/v2/channels/';
+let baseUrl = 'http://api.are.na/v2/channels/';
+let galleryUrl = 'gallery001';
+let timerInterval = 20000;
+let waitForSketchTime = 5000;
+// 20000
 
 let timer;
+let currentiframe = null;
+let nextiframe = null;
 
-$.get(url + 'gallery001', function( data ) {
-    console.log(data);
-    contents = data.contents;
+// edits to make:
+// create second iframe, fade it out
+
+$.get(baseUrl + galleryUrl, function( data ) {
+    contents = data.contents.filter(block => block.class == 'Link');
     runThroughContents();
-
-    $('#art').text(data.metadata.description);
-    // $('#arena-results').text(data.metadata.description);
 });
 
 $('#next').click(function(){
 	clearInterval(timer);
 	runThroughContents();
-	
 });
 
 
-// $.get( "channel", function( data ) {
-//     console.log(data);
-//     contents = data.contents;
-//     setInterval(runThroughContents, 20000);
-
-//     $('#art').text(data.metadata.description);
-//     // $('#arena-results').text(data.metadata.description);
-// });
-
 function runThroughContents(){
-	console.log(index);
-
-	$('.art').remove();
-
-	$('<iframe/>', {
-	    // id: 'some-id',
+  let nextId = 'piece-' + index;
+	nextiframe = $('<iframe/>', {
+	    id: nextId,
 	    src: contents[index].source.url,
 	    class: 'art'
-	}).appendTo('#page');
+	}).attr('hidden', true).appendTo('#page');
 
-	index++;
+  // first load page
+  $(nextiframe[0].contentWindow).ready(function(){
 
-    timer = setInterval(runThroughContents, 20000);
+    // estimated wait for openProcessing.org to load sketch
+    setTimeout(function(){
+      if(currentiframe != null){
+        currentiframe.fadeOut(3000, 'swing', function(){
+          $(this).remove();
+        });
+      }
+
+      nextiframe.fadeIn(3000, 'swing', function(){});
+
+      currentiframe = nextiframe;
+      index++;
+      if(index == contents.length){
+        index = 0;
+      }
+      timer = setTimeout(runThroughContents, timerInterval);
+
+    }, waitForSketchTime);
+  });
 }
