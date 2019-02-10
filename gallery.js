@@ -1,7 +1,7 @@
 let contents = [];
 let index = 0;
 let baseUrl = 'http://api.are.na/v2/channels/';
-let galleryUrl = 'gallery001';
+let galleryUrl = 'poolhaus-digital';
 let timerInterval = 20000;
 let waitForSketchTime = 5000;
 let timer;
@@ -29,9 +29,13 @@ function runThroughContents(){
 
   // first load page
   $(nextiframe[0].contentWindow).ready(function(niframe){
-    
+
     // estimated wait for openProcessing.org to load sketch
+    let waitTime = (index == 0 ? 0 : waitForSketchTime);
+    console.log(waitTime);
+
     setTimeout(function(){
+      console.log('in timeout')
       if(currentiframe != null){
         currentiframe.fadeOut(3000, 'swing', function(){
           $(this).remove();
@@ -47,6 +51,6 @@ function runThroughContents(){
       }
       timer = setTimeout(runThroughContents, timerInterval);
 
-    }, waitForSketchTime);
+    }, waitTime);
   });
 }
