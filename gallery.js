@@ -1,18 +1,13 @@
-
 let contents = [];
 let index = 0;
 let baseUrl = 'http://api.are.na/v2/channels/';
 let galleryUrl = 'gallery001';
 let timerInterval = 20000;
 let waitForSketchTime = 5000;
-// 20000
-
 let timer;
 let currentiframe = null;
 let nextiframe = null;
 
-// edits to make:
-// create second iframe, fade it out
 
 $.get(baseUrl + galleryUrl, function( data ) {
     contents = data.contents.filter(block => block.class == 'Link');
@@ -26,16 +21,15 @@ $('#next').click(function(){
 
 
 function runThroughContents(){
-  let nextId = 'piece-' + index;
 	nextiframe = $('<iframe/>', {
-	    id: nextId,
+	    id: index,
 	    src: contents[index].source.url,
 	    class: 'art'
 	}).attr('hidden', true).appendTo('#page');
 
   // first load page
-  $(nextiframe[0].contentWindow).ready(function(){
-
+  $(nextiframe[0].contentWindow).ready(function(niframe){
+    
     // estimated wait for openProcessing.org to load sketch
     setTimeout(function(){
       if(currentiframe != null){
